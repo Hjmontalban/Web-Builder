@@ -180,6 +180,7 @@
             border-bottom: 1px solid rgba(229, 231, 235, 1) !important;
             z-index: 50 !important;
             transition: all 0.3s ease !important;
+            display: block !important;
         }
         
         nav .max-w-7xl {
@@ -205,11 +206,21 @@
             height: 4rem !important;
         }
         
-        /* Ensure logo is visible */
-        .logo-container {
-            display: flex !important;
+        /* Ensure all navigation elements are visible */
+        .nav-link {
+            display: inline-flex !important;
             align-items: center !important;
+            color: #666666 !important;
+            text-decoration: none !important;
+            padding: 0.5rem 1rem !important;
+            border-radius: 0.5rem !important;
+            font-weight: 600 !important;
+            transition: all 0.3s ease !important;
+        }
+        
+        .nav-link:hover {
             color: #000000 !important;
+            background-color: rgba(0, 0, 0, 0.05) !important;
         }
         
         /* Desktop navigation visibility */
@@ -219,6 +230,11 @@
             }
             .lg\\:hidden {
                 display: none !important;
+            }
+            
+            /* Ensure desktop nav links are visible */
+            nav .hidden.lg\\:flex {
+                display: flex !important;
             }
         }
         
@@ -230,6 +246,78 @@
             .lg\\:hidden {
                 display: flex !important;
             }
+            
+            /* Mobile menu button */
+            #mobile-menu-button {
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                padding: 0.75rem !important;
+                border-radius: 0.5rem !important;
+                color: #666666 !important;
+                background-color: transparent !important;
+                border: none !important;
+                cursor: pointer !important;
+            }
+            
+            #mobile-menu-button:hover {
+                color: #000000 !important;
+                background-color: rgba(0, 0, 0, 0.05) !important;
+            }
+        }
+        
+        /* Force visibility of navigation elements */
+        #navbar {
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+        
+        #navbar * {
+            visibility: visible !important;
+        }
+        
+        /* Comprehensive navigation fallback styles */
+        @media (min-width: 1024px) {
+            #desktop-nav {
+                display: flex !important;
+                align-items: center !important;
+                gap: 2rem !important;
+            }
+            
+            #mobile-menu-button {
+                display: none !important;
+            }
+        }
+        
+        @media (max-width: 1023px) {
+            #desktop-nav {
+                display: none !important;
+            }
+            
+            #mobile-menu-button {
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+            }
+        }
+        
+        /* Ensure contact button is always visible */
+        nav a[href^="tel:"] {
+            display: inline-flex !important;
+            align-items: center !important;
+            background: linear-gradient(to right, #ffffff, #f7fafc) !important;
+            color: #000000 !important;
+            padding: 0.75rem 1.5rem !important;
+            border-radius: 9999px !important;
+            font-weight: 700 !important;
+            text-decoration: none !important;
+            transition: all 0.3s ease !important;
+        }
+        
+        nav a[href^="tel:"]:hover {
+            background: linear-gradient(to right, #f7fafc, #ffffff) !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1) !important;
         }
 
         /* Enhanced mobile responsiveness */
@@ -381,7 +469,7 @@
     <!-- Critical Navigation Fallback Script -->
     <script>
         // Ensure navigation is visible immediately
-        document.addEventListener('DOMContentLoaded', function() {
+        function ensureNavVisibility() {
             const nav = document.getElementById('navbar');
             if (nav) {
                 nav.style.display = 'block';
@@ -393,8 +481,40 @@
                 nav.style.backdropFilter = 'blur(12px)';
                 nav.style.boxShadow = '0 10px 25px -5px rgba(0, 0, 0, 0.1)';
                 nav.style.borderBottom = '1px solid rgba(229, 231, 235, 1)';
+                nav.style.visibility = 'visible';
+                nav.style.opacity = '1';
             }
-        });
+            
+            // Ensure desktop navigation is visible on large screens
+            const desktopNav = document.querySelector('.hidden.lg\\:flex');
+            if (desktopNav && window.innerWidth >= 1024) {
+                desktopNav.style.display = 'flex';
+            }
+            
+            // Ensure mobile button is visible on small screens
+            const mobileButton = document.querySelector('.lg\\:hidden');
+            if (mobileButton && window.innerWidth < 1024) {
+                mobileButton.style.display = 'flex';
+            }
+            
+            // Style navigation links
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.style.display = 'inline-flex';
+                link.style.alignItems = 'center';
+                link.style.color = '#666666';
+                link.style.textDecoration = 'none';
+                link.style.padding = '0.5rem 1rem';
+                link.style.borderRadius = '0.5rem';
+                link.style.fontWeight = '600';
+                link.style.transition = 'all 0.3s ease';
+            });
+        }
+        
+        // Run immediately and on DOM ready
+        ensureNavVisibility();
+        document.addEventListener('DOMContentLoaded', ensureNavVisibility);
+        window.addEventListener('resize', ensureNavVisibility);
     </script>
 </head>
 <body class="bg-gray-50">
@@ -425,7 +545,7 @@
                 </div>
 
                 <!-- Desktop Navigation -->
-                <div class="hidden lg:flex items-center space-x-8">
+                <div class="hidden lg:flex items-center space-x-8" id="desktop-nav" style="align-items: center;">
                     <div class="flex items-center space-x-1">
                         <a href="#home" class="nav-link text-secondary hover:text-primary px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 hover:bg-primary/5 relative group">
                             <span>Home</span>
@@ -458,8 +578,8 @@
                 </div>
 
                 <!-- Mobile Menu Button -->
-                <div class="lg:hidden flex-shrink-0">
-                    <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 sm:p-3 rounded-lg text-secondary hover:text-primary hover:bg-primary/5 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-300" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-menu">
+                <div class="lg:hidden flex-shrink-0" style="display: flex; flex-shrink: 0;">
+                    <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 sm:p-3 rounded-lg text-secondary hover:text-primary hover:bg-primary/5 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-300" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-menu" style="display: inline-flex; align-items: center; justify-content: center; padding: 0.75rem; border-radius: 0.5rem; color: #666666; background-color: transparent; border: none; cursor: pointer;">
                         <span class="sr-only">Open main menu</span>
                         <svg class="block h-5 w-5 sm:h-6 sm:w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
