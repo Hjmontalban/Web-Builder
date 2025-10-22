@@ -20,12 +20,8 @@
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" media="print" onload="this.media='all'">
-    <noscript>
-        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    </noscript>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <!-- Tailwind Config -->
     <script>
@@ -173,6 +169,69 @@
             }
         }
         
+        /* Critical Navigation Styles - Always Load First */
+        nav {
+            position: fixed !important;
+            top: 0 !important;
+            width: 100% !important;
+            background-color: rgba(255, 255, 255, 0.98) !important;
+            backdrop-filter: blur(12px) !important;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1) !important;
+            border-bottom: 1px solid rgba(229, 231, 235, 1) !important;
+            z-index: 50 !important;
+            transition: all 0.3s ease !important;
+        }
+        
+        nav .max-w-7xl {
+            max-width: 80rem !important;
+            margin: 0 auto !important;
+            padding-left: 0.75rem !important;
+            padding-right: 0.75rem !important;
+        }
+        
+        nav .flex {
+            display: flex !important;
+        }
+        
+        nav .justify-between {
+            justify-content: space-between !important;
+        }
+        
+        nav .items-center {
+            align-items: center !important;
+        }
+        
+        nav .h-16 {
+            height: 4rem !important;
+        }
+        
+        /* Ensure logo is visible */
+        .logo-container {
+            display: flex !important;
+            align-items: center !important;
+            color: #000000 !important;
+        }
+        
+        /* Desktop navigation visibility */
+        @media (min-width: 1024px) {
+            .lg\\:flex {
+                display: flex !important;
+            }
+            .lg\\:hidden {
+                display: none !important;
+            }
+        }
+        
+        /* Mobile navigation visibility */
+        @media (max-width: 1023px) {
+            .lg\\:flex {
+                display: none !important;
+            }
+            .lg\\:hidden {
+                display: flex !important;
+            }
+        }
+
         /* Enhanced mobile responsiveness */
         @media (max-width: 768px) {
             .hero-section {
@@ -318,10 +377,29 @@
             }
         }
     </style>
+    
+    <!-- Critical Navigation Fallback Script -->
+    <script>
+        // Ensure navigation is visible immediately
+        document.addEventListener('DOMContentLoaded', function() {
+            const nav = document.getElementById('navbar');
+            if (nav) {
+                nav.style.display = 'block';
+                nav.style.position = 'fixed';
+                nav.style.top = '0';
+                nav.style.width = '100%';
+                nav.style.zIndex = '50';
+                nav.style.backgroundColor = 'rgba(255, 255, 255, 0.98)';
+                nav.style.backdropFilter = 'blur(12px)';
+                nav.style.boxShadow = '0 10px 25px -5px rgba(0, 0, 0, 0.1)';
+                nav.style.borderBottom = '1px solid rgba(229, 231, 235, 1)';
+            }
+        });
+    </script>
 </head>
 <body class="bg-gray-50">
     <!-- Navigation -->
-    <nav class="fixed top-0 w-full bg-white/98 backdrop-blur-xl shadow-xl border-b border-gray-100 z-50 transition-all duration-300" id="navbar">
+    <nav class="fixed top-0 w-full bg-white/98 backdrop-blur-xl shadow-xl border-b border-gray-100 z-50 transition-all duration-300" id="navbar" style="display: block; position: fixed; top: 0; width: 100%; z-index: 50; background-color: rgba(255, 255, 255, 0.98);">
         <div class="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8">
             <div class="flex justify-between items-center h-16 sm:h-18 lg:h-20">
                 <!-- Logo Section -->
